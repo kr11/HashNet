@@ -16,8 +16,14 @@ def pairwise_loss(outputs1, outputs2, label1, label2, sigmoid_param=1.0, l_thres
     mask_ep = mask_exp & mask_positive
     mask_en = mask_exp & mask_negative
 
-    dot_loss = dot_product * (1-similarity)
-    exp_loss = (torch.log(1+exp_product) - similarity * dot_product)
-    loss = (torch.sum(torch.masked_select(exp_loss, Variable(mask_ep))) + torch.sum(torch.masked_select(dot_loss, Variable(mask_dp)))) * class_num + torch.sum(torch.masked_select(exp_loss, Variable(mask_en))) + torch.sum(torch.masked_select(dot_loss, Variable(mask_dn)))
+    dot_loss = dot_product * (1 - similarity)
+    exp_loss = (torch.log(1 + exp_product) - similarity * dot_product)
+    loss = (torch.sum(torch.masked_select(exp_loss, Variable(mask_ep))) + torch.sum(
+        torch.masked_select(dot_loss, Variable(mask_dp)))) * class_num + torch.sum(
+        torch.masked_select(exp_loss, Variable(mask_en))) + torch.sum(torch.masked_select(dot_loss, Variable(mask_dn)))
 
     return loss / (torch.sum(mask_positive.float()) * class_num + torch.sum(mask_negative.float()))
+
+
+def quantization_loss(outputs):
+    return torch.sum(torch.log(torch.cosh(torch.abs(outputs)-1))) / outputs.size(0)

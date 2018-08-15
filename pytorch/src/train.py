@@ -213,7 +213,9 @@ def train(config):
                                  sigmoid_param=config["loss"]["sigmoid_param"], \
                                  l_threshold=config["loss"]["l_threshold"], \
                                  class_num=config["loss"]["class_num"])
-
+        q_loss = loss.quantization_loss(outputs.narrow(0,0,inputs1.size(0))) + \
+                 loss.quantization_loss(outputs.narrow(0,inputs1.size(0),inputs2.size(0)))
+        similarity_loss += 0.1 * q_loss
         similarity_loss.backward()
         print("Iter: {:05d}, loss: {:.3f}".format(i, similarity_loss.float().data[0]))
         config["out_file"].write("Iter: {:05d}, loss: {:.3f}".format(i, \

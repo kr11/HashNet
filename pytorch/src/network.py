@@ -16,7 +16,7 @@ class AlexNetFc(nn.Module):
         self.classifier.add_module("classifier"+str(i), model_alexnet.classifier[i])
     self.feature_layers = nn.Sequential(self.features, self.classifier)
 
-    self.use_hashnet = use_hashnet
+    # self.use_hashnet = use_hashnet
     self.hash_layer = nn.Linear(model_alexnet.classifier[6].in_features, hash_bit)
     self.hash_layer.weight.data.normal_(0, 0.01)
     self.hash_layer.bias.data.fill_(0.0)
@@ -27,7 +27,7 @@ class AlexNetFc(nn.Module):
     self.power = 0.5
     self.init_scale = 1.0
     self.activation = nn.Tanh()
-    self.scale = self.init_scale
+    # self.scale = self.init_scale
 
   def forward(self, x):
     if self.training:
@@ -36,9 +36,9 @@ class AlexNetFc(nn.Module):
     x = x.view(x.size(0), 256*6*6)
     x = self.classifier(x)
     y = self.hash_layer(x)
-    if self.iter_num % self.step_size==0:
-        self.scale = self.init_scale * (math.pow((1.+self.gamma*self.iter_num), self.power))
-    y = self.activation(self.scale*y)
+    # if self.iter_num % self.step_size==0:
+        # self.scale = self.init_scale * (math.pow((1.+self.gamma*self.iter_num), self.power))
+    y = self.activation(y)
     return y
 
   def output_num(self):
