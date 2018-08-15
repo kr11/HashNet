@@ -274,5 +274,11 @@ if __name__ == "__main__":
     elif config["dataset"] == "coco":
         config["data"] = {"train_set1":{"list_path":"../data/coco/train.txt", "batch_size":36}, \
                           "train_set2":{"list_path":"../data/coco/train.txt", "batch_size":36}}
+    elif config["dataset"] == "coco-9":
+        config["data"] = {"train_set1": {"list_path": "../data/coco-9/train.txt", "batch_size": 36}, \
+                          "train_set2": {"list_path": "../data/coco-9/train.txt", "batch_size": 36}}
+    elif config["dataset"] == "imagenet-13":
+        config["data"] = {"train_set1": {"list_path": "../data/imagenet-13/train.txt", "batch_size": 36}, \
+                          "train_set2": {"list_path": "../data/imagenet-13/train.txt", "batch_size": 36}}
     print(config["loss"])
     train(config)

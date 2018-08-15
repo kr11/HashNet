@@ -188,6 +188,14 @@ if __name__ == "__main__":
         config["data"] = {"database":{"list_path":"../data/coco/database.txt", "batch_size":16}, \
                           "test":{"list_path":"../data/coco/test.txt", "batch_size":16}}
         config["R"] = 5000
+    elif config["dataset"] == "imagenet-13":
+        config["data"] = {"database":{"list_path":"../data/imagenet-13/database.txt", "batch_size":16}, \
+                          "test":{"list_path":"../data/imagenet-13/test.txt", "batch_size":16}}
+        config["R"] = 1000
+    elif config["dataset"] == "coco-9":
+        config["data"] = {"database":{"list_path":"../data/coco-9/database.txt", "batch_size":16}, \
+                          "test":{"list_path":"../data/coco-9/test.txt", "batch_size":16}}
+        config["R"] = 5000
     code_and_label = predict(config)
 
     mAP = mean_average_precision(code_and_label, config["R"])
