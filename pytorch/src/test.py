@@ -79,7 +79,11 @@ def code_predict(loader, model, name, test_10crop=True, gpu=True):
                 all_label = torch.cat((all_label, labels.float()), 0)
     else:
         iter_val = iter(loader[name])
+        print("name: %s; length: %d" % (name, len(loader[name])))
+        display_interval = 100
         for i in range(len(loader[name])):
+            if i % display_interval == 0:
+                print("iter: %d" % i)
             data = iter_val.next()
             inputs = data[0]
             labels = data[1]
@@ -196,6 +200,7 @@ if __name__ == "__main__":
         config["data"] = {"database":{"list_path":"../data/coco-9/database.txt", "batch_size":16}, \
                           "test":{"list_path":"../data/coco-9/test.txt", "batch_size":16}}
         config["R"] = 5000
+    print("start test")
     code_and_label = predict(config)
 
     mAP = mean_average_precision(code_and_label, config["R"])
